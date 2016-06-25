@@ -22,6 +22,7 @@ namespace humanSpineSfDraw
 			leftTriangle.setPoint(1, point);
 			point.y -= element.getLeftHeight;
 			leftTriangle.setPoint(2, point);
+			leftTriangle.setRotation(element.getAngle);
 
 			point = position;
 			ConvexShape rightTriangle;
@@ -31,6 +32,7 @@ namespace humanSpineSfDraw
 			rightTriangle.setPoint(1, point);
 			point.y -= element.getRightHeight;
 			rightTriangle.setPoint(2, point);
+			rightTriangle.setRotation(element.getAngle);
 
 			leftTriangle.setFillColor(Color::Red);
 			rightTriangle.setFillColor(Color::Red);

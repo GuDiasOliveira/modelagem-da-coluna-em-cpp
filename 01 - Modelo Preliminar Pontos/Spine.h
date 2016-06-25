@@ -78,9 +78,9 @@ namespace humanSpine
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				m_disks[i].setWidth(SPINE_WIDTH);
-				m_disks[i].setHeight(8);
+				m_disks[i].setHeight(8); // inital height for tests
 				m_vertebras[i].setWidth(SPINE_WIDTH);
-				m_vertebras[i].setHeight(16);
+				m_vertebras[i].setHeight(16); // inital height for tests
 			}
 		}
 

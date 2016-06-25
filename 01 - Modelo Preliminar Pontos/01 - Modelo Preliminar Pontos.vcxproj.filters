@@ -48,6 +48,12 @@
     <ClInclude Include="DiskDrawable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeadDrawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SacroCoccyxDrawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
