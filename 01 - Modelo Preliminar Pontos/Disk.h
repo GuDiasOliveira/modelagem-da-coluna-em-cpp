@@ -65,6 +65,16 @@ namespace humanSpine
 			return m_width;
 		}
 
+		double getLeftHeight()
+		{
+			return m_height + m_deltaHeight;
+		}
+
+		double getRightHeight()
+		{
+			return m_height - m_deltaHeight;
+		}
+
 		virtual ~Disk()
 		{
 		}

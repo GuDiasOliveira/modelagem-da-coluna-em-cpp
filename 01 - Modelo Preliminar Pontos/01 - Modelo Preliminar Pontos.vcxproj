@@ -20,14 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Disk.h" />
+    <ClInclude Include="DiskDrawable.h" />
     <ClInclude Include="Head.h" />
+    <ClInclude Include="HumanSpineElementDrawable.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="PointsModel.h" />
     <ClInclude Include="Positionable.h" />
     <ClInclude Include="Spine.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vertebra.h" />
-    <ClInclude Include="VertebraDrawer.h" />
+    <ClInclude Include="VertebraDrawable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

@@ -39,7 +39,13 @@
     <ClInclude Include="Positionable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VertebraDrawer.h">
+    <ClInclude Include="VertebraDrawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HumanSpineElementDrawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskDrawable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
