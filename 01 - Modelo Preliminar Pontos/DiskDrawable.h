@@ -14,25 +14,21 @@ namespace humanSpineSfDraw
 
 		virtual void draw(RenderTarget &target, RenderStates states) const
 		{
-			Vector2f point = position;
 			ConvexShape leftTriangle;
 			leftTriangle.setPointCount(3);
-			leftTriangle.setPoint(0, point);
-			point += Vector2f(-element.getWidth / 2, element.getHeight / 2);
-			leftTriangle.setPoint(1, point);
-			point.y -= element.getLeftHeight;
-			leftTriangle.setPoint(2, point);
-			leftTriangle.setRotation(element.getAngle);
+			leftTriangle.setPoint(0, Vector2f(0, 0));
+			leftTriangle.setPoint(1, Vector2f(-element->getWidth() / 2, element->getHeight() / 2));
+			leftTriangle.setPoint(2, Vector2f(-element->getWidth() / 2, element->getLeftHeight() - element->getHeight() / 2));
+			leftTriangle.setPosition(position);
+			leftTriangle.setRotation(element->getAngle());
 
-			point = position;
 			ConvexShape rightTriangle;
 			rightTriangle.setPointCount(3);
-			rightTriangle.setPoint(0, point);
-			point += Vector2f(element.getWidth / 2, element.getHeight / 2);
-			rightTriangle.setPoint(1, point);
-			point.y -= element.getRightHeight;
-			rightTriangle.setPoint(2, point);
-			rightTriangle.setRotation(element.getAngle);
+			rightTriangle.setPoint(0, Vector2f(0, 0));
+			rightTriangle.setPoint(1, Vector2f(element->getWidth() / 2, element->getHeight() / 2));
+			rightTriangle.setPoint(2, Vector2f(element->getWidth() / 2, element->getRightHeight() - element->getHeight() / 2));
+			rightTriangle.setPosition(position);
+			rightTriangle.setRotation(element->getAngle());
 
 			leftTriangle.setFillColor(Color::Red);
 			rightTriangle.setFillColor(Color::Red);

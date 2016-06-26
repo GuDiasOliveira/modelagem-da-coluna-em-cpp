@@ -26,7 +26,7 @@ namespace humanSpine
 
 		Point position;
 
-		bool setAngle(double angle)
+		void setAngle(double angle)
 		{
 			while (angle > 2 * PI)
 				angle -= 2 * PI;

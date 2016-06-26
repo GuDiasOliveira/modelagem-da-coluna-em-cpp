@@ -7,7 +7,7 @@
 #define PI 3.14159265359
 #endif
 
-template <T> std::string& to_string(T& x)
+template <typename T> std::string& to_string(T& x)
 {
 	std::ostringstream s;
 	s << x;

@@ -17,7 +17,7 @@ namespace humanSpineSfDraw
 
 	public:
 
-		T& element;
+		T *element = NULL;
 		Vector2f position;
 
 		virtual ~HumanSpineElementDrawable()

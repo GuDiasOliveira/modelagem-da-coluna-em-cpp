@@ -29,6 +29,7 @@
     <ClInclude Include="Positionable.h" />
     <ClInclude Include="SacroCoccyxDrawable.h" />
     <ClInclude Include="Spine.h" />
+    <ClInclude Include="SpineDrawable.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vertebra.h" />
     <ClInclude Include="VertebraDrawable.h" />

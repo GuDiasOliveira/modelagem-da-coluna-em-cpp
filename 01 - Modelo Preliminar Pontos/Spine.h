@@ -55,7 +55,7 @@ namespace humanSpine
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				double theta_i = m_pointsModel.getAngle(i);
-				m_vertebras[i].position = m_pointsModel.getPoint(i) + Point(theta_i, theta_i) * m_vertebras[i].getHeight / 2;
+				m_vertebras[i].position = m_pointsModel.getPoint(i) + Point(theta_i, theta_i) * (m_vertebras[i].getHeight() / 2);
 				m_vertebras[i].setAngle(theta_i - PI / 2);
 				m_disks[i].position = m_pointsModel.getPoint(i) + Point(theta_i, theta_i) * (m_vertebras[i].getHeight() + m_disks[i].getHeight() / 2);
 				m_disks[i].setAngle(theta_i - PI / 2);
@@ -131,6 +131,21 @@ namespace humanSpine
 				return true;
 			}
 			return false;
+		}
+
+		Head& getHead()
+		{
+			return m_head;
+		}
+
+		Disk& getDisk(unsigned int index)
+		{
+			return m_disks[index];
+		}
+
+		Vertebra& getVertebra(unsigned int index)
+		{
+			return m_vertebras[index];
 		}
 
 		virtual ~Spine()

@@ -15,14 +15,10 @@ namespace humanSpineSfDraw
 		{
 			ConvexShape shape;
 			shape.setPointCount(3);
-			Vector2f point = point;
-			point.y += element.y;
-			shape.setPoint(0, point);
-			point.y -= element.y;
-			point.x -= element.x / 2;
-			shape.setPoint(1, point);
-			point.x += element.x;
-			shape.setPoint(2, point);
+			shape.setPoint(0, Vector2f(0, element->y));
+			shape.setPoint(1, Vector2f(0, -element->x / 2));
+			shape.setPoint(2, Vector2f(0, element->x / 2));
+			shape.setPosition(position);
 			
 			target.draw(shape, states);
 		}
