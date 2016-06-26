@@ -13,12 +13,14 @@ namespace humanSpineSfDraw
 
 		virtual void draw(RenderTarget &target, RenderStates states) const
 		{
+			//Vector2f position = getPosition();
+
 			ConvexShape shape;
 			shape.setPointCount(3);
 			shape.setPoint(0, Vector2f(0, element->y));
 			shape.setPoint(1, Vector2f(0, -element->x / 2));
 			shape.setPoint(2, Vector2f(0, element->x / 2));
-			shape.setPosition(position);
+			//shape.setPosition(position);
 			
 			target.draw(shape, states);
 		}

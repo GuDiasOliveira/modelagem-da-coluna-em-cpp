@@ -14,9 +14,10 @@ namespace humanSpineSfDraw
 
 		virtual void draw(RenderTarget &target, RenderStates states) const
 		{
+			//Vector2f position = getPosition();
 			RectangleShape shape;
 			
-			shape.setPosition(position);
+			//shape.setPosition(position);
 			shape.setOrigin(Vector2f(element->getWidth() / 2, element->getHeight() / 2));
 			shape.setSize(Vector2f(element->getWidth(), element->getHeight()));
 			shape.setRotation(element->getAngle() * 180 / PI);

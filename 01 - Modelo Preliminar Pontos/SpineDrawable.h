@@ -25,7 +25,8 @@ namespace humanSpineSfDraw
 
 		virtual void draw(RenderTarget &target, RenderStates states) const
 		{
-			Vector2f point = position;
+			//Vector2f position = getPosition();
+			//Vector2f point = Vector2f(0, 0);
 
 			VertebraDrawable vertDrw;
 			DiskDrawable diskDrw;
@@ -33,7 +34,7 @@ namespace humanSpineSfDraw
 			SacroCoccyxDrawable saccDrw;
 
 			saccDrw.element = new Vector2f(SPINE_WIDTH, 10);
-			saccDrw.position = point;
+			saccDrw.setPosition(0, 0);
 			target.draw(saccDrw, states);
 			delete saccDrw.element;
 			saccDrw.element = NULL;
@@ -41,16 +42,16 @@ namespace humanSpineSfDraw
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				vertDrw.element = &element->getVertebra(i);
-				vertDrw.position = position + convertVector(vertDrw.element->position);
+				vertDrw.setPosition(convertVector(vertDrw.element->position));
 				target.draw(vertDrw, states);
 
 				diskDrw.element = &element->getDisk(i);
-				diskDrw.position = position + convertVector(diskDrw.element->position);
+				diskDrw.setPosition(convertVector(diskDrw.element->position));
 				target.draw(diskDrw, states);
 			}
 
 			headDrw.element = &element->getHead();
-			headDrw.position = position + convertVector(headDrw.element->position);
+			headDrw.setPosition(convertVector(headDrw.element->position));
 			target.draw(headDrw, states);
 		}
 

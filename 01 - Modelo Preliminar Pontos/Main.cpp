@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 
 	SpineDrawable spineDrw;
 	spineDrw.element = &spine;
-	spineDrw.position = Vector2f(window.getSize().x / 2, window.getSize().y - 30);
+	spineDrw.setPosition(Vector2f(window.getSize().x / 2, window.getSize().y - 30));
 
 	window.setVisible(true);
 	while (window.isOpen())
@@ -39,9 +39,24 @@ int main(int argc, char** argv)
 			}
 		}
 
+		DiskDrawable test;
+		test.setPosition(Vector2f(400, 100));
+		test.element = new Disk;
+		test.element->setHeight(30);
+		test.element->setWidth(40);
+
+		CircleShape test2;
+		test2.setPosition(200, 200);
+		test2.setRadius(10);
+		test2.setFillColor(Color::Cyan);
+
 		window.clear();
 		window.draw(spineDrw);
+		window.draw(test);
+		window.draw(test2);
 		window.display();
+
+		delete test.element;
 	}
 
 	return EXIT_SUCCESS;

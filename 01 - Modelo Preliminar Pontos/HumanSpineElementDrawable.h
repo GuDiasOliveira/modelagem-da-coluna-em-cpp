@@ -12,13 +12,12 @@ namespace humanSpineSfDraw
 {
 
 	template<class T>
-	class HumanSpineElementDrawable : public Drawable
+	class HumanSpineElementDrawable : public Drawable, public Transformable
 	{
 
 	public:
 
 		T *element = NULL;
-		Vector2f position;
 
 		virtual ~HumanSpineElementDrawable()
 		{
