@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	double angles[SPINE_COUNT_ALL_DISKS];
 	for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 	{
-		angles[i] = PI / 2;
+		angles[i] = (PI / 2) / (SPINE_COUNT_ALL_DISKS - i);
 	}
 	spine.setAngles(angles);
 	spine.setHeadInclination(PI / 4);
@@ -39,11 +39,10 @@ int main(int argc, char** argv)
 			}
 		}
 
-		DiskDrawable test;
-		test.setPosition(Vector2f(400, 100));
-		test.element = new Disk;
-		test.element->setHeight(30);
-		test.element->setWidth(40);
+		HeadDrawable test;
+		test.setPosition(Vector2f(150, 200));
+		test.element = new Head(50);
+		test.element->setAngle(PI / 4);
 
 		CircleShape test2;
 		test2.setPosition(200, 200);
@@ -52,8 +51,8 @@ int main(int argc, char** argv)
 
 		window.clear();
 		window.draw(spineDrw);
-		window.draw(test);
-		window.draw(test2);
+		//window.draw(test);
+		//window.draw(test2);
 		window.display();
 
 		delete test.element;

@@ -13,3 +13,8 @@ template <typename T> std::string& to_string(T& x)
 	s << x;
 	return s.str();
 }
+
+float to_sfmlAngle(double angle)
+{
+	return (float) angle * 180 / PI;
+}

@@ -18,7 +18,7 @@ namespace humanSpine
 
 	protected:
 
-		Positionable()
+		Positionable() : m_angle(0)
 		{
 		}
 

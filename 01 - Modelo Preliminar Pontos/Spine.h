@@ -82,6 +82,7 @@ namespace humanSpine
 				m_vertebras[i].setWidth(SPINE_WIDTH);
 				m_vertebras[i].setHeight(16); // inital height for tests
 			}
+			calculate();
 		}
 
 		bool setAngle(unsigned int index, double angle)

@@ -13,6 +13,7 @@ namespace humanSpineSfDraw
 
 		virtual void draw(RenderTarget &target, RenderStates states) const
 		{
+			states.transform *= getTransform();
 			//Vector2f position = getPosition();
 
 			ConvexShape shape;
