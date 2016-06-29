@@ -14,7 +14,7 @@ namespace humanSpine
 
 	private:
 
-		double m_height, m_deltaHeight, m_width;
+		double m_height, m_deltaHeight, m_width, *m_maxDeltaHeight = NULL;
 
 	public:
 
@@ -27,10 +27,15 @@ namespace humanSpine
 			if (height < 0)
 				return false;
 			m_height = height;
-			if (m_deltaHeight > m_height)
-				m_deltaHeight = m_height;
-			else if (-m_deltaHeight > m_height)
-				m_deltaHeight = -m_height;
+			if (m_maxDeltaHeight != NULL && *m_maxDeltaHeight > m_height)
+			{
+				*m_maxDeltaHeight = m_height;
+			}
+			double maxDeltaHeight = getMaxDeltaHeight();
+			if (m_deltaHeight > maxDeltaHeight)
+				m_deltaHeight = maxDeltaHeight;
+			else if (-m_deltaHeight > maxDeltaHeight)
+				m_deltaHeight = -maxDeltaHeight;
 			return true;
 		}
 
@@ -41,7 +46,7 @@ namespace humanSpine
 
 		bool setDeltaHeight(double deltaHeight)
 		{
-			if (abs(deltaHeight) > m_height)
+			if (abs(deltaHeight) > getMaxDeltaHeight())
 				return false;
 			m_deltaHeight = deltaHeight;
 			return true;
@@ -75,8 +80,33 @@ namespace humanSpine
 			return m_height - m_deltaHeight;
 		}
 
+		bool setMaxDeltaHeight(double maxDeltaHeight)
+		{
+			if (maxDeltaHeight > m_height || maxDeltaHeight < 0)
+				return false;
+			if (m_maxDeltaHeight == NULL)
+				m_maxDeltaHeight = new double;
+			*m_maxDeltaHeight = maxDeltaHeight;
+			return true;
+		}
+
+		void unsetMaxDeltaHeight()
+		{
+			if (m_maxDeltaHeight == NULL)
+				return;
+			delete m_maxDeltaHeight;
+			m_maxDeltaHeight = NULL;
+		}
+
+		double getMaxDeltaHeight()
+		{
+			return m_maxDeltaHeight == NULL ? m_height : *m_maxDeltaHeight;
+		}
+
 		virtual ~Disk()
 		{
+			if (m_maxDeltaHeight != NULL)
+				delete m_maxDeltaHeight;
 		}
 
 	};

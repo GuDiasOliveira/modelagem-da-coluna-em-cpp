@@ -40,13 +40,13 @@ namespace pointsModel
 			return Point(x / mult, y / mult);
 		}
 
-		void operator+=(Point& p)
+		void operator+=(Point p)
 		{
 			x += p.x;
 			y += p.y;
 		}
 
-		void operator-=(Point& p)
+		void operator-=(Point p)
 		{
 			x -= p.x;
 			y -= p.y;

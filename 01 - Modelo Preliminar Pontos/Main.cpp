@@ -32,13 +32,13 @@ int main(int argc, char** argv)
 	angles[0] = PI / 2;
 	for (int i = 1; i < SPINE_COUNT_ALL_DISKS; i++)
 	{
-		//double deltaAngleMax = atan(2 * spine.getDisk(i - 1).getHeight() / SPINE_WIDTH);
-		//double deltaAngle = random(-deltaAngleMax, deltaAngleMax);
-		//angles[i] = angles[i - 1] + deltaAngle;
-		angles[i] = PI / 4;
+		double deltaAngleMax = atan(2 * spine.getDisk(i - 1).getHeight() / SPINE_WIDTH);
+		double deltaAngle = random(-deltaAngleMax, deltaAngleMax);
+		angles[i] = angles[i - 1] + deltaAngle / 2.8;
+		//angles[i] = PI / 4;
 	}
 	spine.setAngles(angles);
-	spine.setHeadInclination(PI / 4);
+	spine.setHeadInclination(angles[SPINE_COUNT_ALL_DISKS - 1] - PI / 2);
 
 	SpineDrawable spineDrw;
 	spineDrw.element = &spine;
@@ -56,20 +56,9 @@ int main(int argc, char** argv)
 			}
 		}
 
-		DiskDrawable test;
-		test.setPosition(Vector2f(150, 200));
-		test.element = new Disk;
-		test.element->setHeight(100);
-		test.element->setWidth(200);
-		test.element->setDeltaHeight(-50);
-		//test.setRotation(30);
-
 		window.clear();
 		window.draw(spineDrw);
-		//window.draw(test);
 		window.display();
-
-		delete test.element;
 	}
 
 	return EXIT_SUCCESS;
