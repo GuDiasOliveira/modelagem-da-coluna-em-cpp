@@ -20,22 +20,22 @@ namespace pointsModel
 			this->y = y;
 		}
 
-		Point& operator+(Point& p)
+		Point operator+(Point p)
 		{
 			return Point(x + p.x, y + p.y);
 		}
 
-		Point& operator-(Point& p)
+		Point operator-(Point p)
 		{
 			return Point(x - p.x, y - p.y);
 		}
 
-		Point& operator*(double mult)
+		Point operator*(double mult)
 		{
 			return Point(x * mult, y * mult);
 		}
 
-		Point& operator/(double mult)
+		Point operator/(double mult)
 		{
 			return Point(x / mult, y / mult);
 		}
@@ -64,7 +64,7 @@ namespace pointsModel
 			y /= mult;
 		}
 
-		Point& operator-()
+		Point operator-()
 		{
 			return Point(-x, -y);
 		}

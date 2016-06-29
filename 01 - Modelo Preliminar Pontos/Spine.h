@@ -45,7 +45,7 @@ namespace humanSpine
 			m_pointsModel.setAngle(0, PI / 2);
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
-				m_disks[i].setDeltaHeight(SPINE_WIDTH * tan(m_pointsModel.getAngle(i+1) - m_pointsModel.getAngle(i)) / 2);
+				m_disks[i].setDeltaHeight(-SPINE_WIDTH * tan(m_pointsModel.getAngle(i+1) - m_pointsModel.getAngle(i)) / 2);
 				m_pointsModel.setEdge(i, m_disks[i].getHeight() + m_vertebras[i].getHeight());
 			}
 			m_pointsModel.setEdge(SPINE_COUNT_ALL_DISKS, m_head.getRadius());
