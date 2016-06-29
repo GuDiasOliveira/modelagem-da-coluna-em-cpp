@@ -38,6 +38,7 @@ namespace humanSpine
 		Vertebra m_vertebras[SPINE_COUNT_ALL_DISKS];
 		Head m_head;
 		PointsModel m_pointsModel;
+		//double m_headInclination = 0;
 
 		void calculateDeltaHeightsAndEdges()
 		{
@@ -55,13 +56,13 @@ namespace humanSpine
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				double theta_i = m_pointsModel.getAngle(i);
-				m_vertebras[i].position = m_pointsModel.getPoint(i) + Point(theta_i, theta_i) * (m_vertebras[i].getHeight() / 2);
+				m_vertebras[i].position = m_pointsModel.getPoint(i) + Point(cos(theta_i), sin(theta_i)) * (m_vertebras[i].getHeight() / 2);
 				m_vertebras[i].setAngle(theta_i - PI / 2);
-				m_disks[i].position = m_pointsModel.getPoint(i) + Point(theta_i, theta_i) * (m_vertebras[i].getHeight() + m_disks[i].getHeight() / 2);
+				m_disks[i].position = m_pointsModel.getPoint(i) + Point(cos(theta_i), sin(theta_i)) * (m_vertebras[i].getHeight() + m_disks[i].getHeight() / 2);
 				m_disks[i].setAngle(theta_i - PI / 2);
 			}
-			m_head.position = m_pointsModel.getPoint(SPINE_COUNT_ALL_DISKS);
-			m_head.setAngle(m_pointsModel.getAngle(SPINE_COUNT_ALL_DISKS));
+			double theta_H = m_head.getAngle();
+			m_head.position = m_pointsModel.getPoint(SPINE_COUNT_ALL_DISKS) + Point(-sin(theta_H), cos(theta_H)) * m_head.getRadius();
 		}
 
 		void calculate()
@@ -78,16 +79,16 @@ namespace humanSpine
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				m_disks[i].setWidth(SPINE_WIDTH);
-				m_disks[i].setHeight(8); // inital height for tests
+				m_disks[i].setHeight(20); // inital height for tests
 				m_vertebras[i].setWidth(SPINE_WIDTH);
-				m_vertebras[i].setHeight(16); // inital height for tests
+				m_vertebras[i].setHeight(10); // inital height for tests
 			}
 			calculate();
 		}
 
 		bool setAngle(unsigned int index, double angle)
 		{
-			if (index >= m_pointsModel.getNumberOfPoints())
+			if (index >= m_pointsModel.getNumberOfPoints()-1)
 				return false;
 			if (m_pointsModel.setAngle(index, angle))
 			{
@@ -100,7 +101,7 @@ namespace humanSpine
 		unsigned int setAngles(double *angles)
 		{
 			unsigned int set = 0;
-			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
+			for (int i = 0; i < SPINE_COUNT_ALL_DISKS-2; i++)
 			{
 				if (m_pointsModel.setAngle(i + 1, angles[i]))
 					set++;
@@ -111,27 +112,22 @@ namespace humanSpine
 
 		unsigned int setInclinations(double *angles)
 		{
-			double _angles[SPINE_COUNT_ALL_DISKS];
-			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
+			double _angles[SPINE_COUNT_ALL_DISKS-2];
+			for (int i = 0; i < SPINE_COUNT_ALL_DISKS-2; i++)
 				_angles[i] = angles[i] + PI / 2;
 			return setAngles(_angles);
 		}
 
 		bool setInclination(unsigned int diskIndex, double angle)
 		{
-			if (diskIndex < 1 || diskIndex >= SPINE_COUNT_ALL_DISKS)
+			if (diskIndex < 1 || diskIndex >= SPINE_COUNT_ALL_DISKS-1)
 				return false;
 			return setAngle(diskIndex, angle + PI / 2);
 		}
 
 		bool setHeadInclination(double angle)
 		{
-			if (m_pointsModel.setAngle(SPINE_COUNT_ALL_DISKS, angle))
-			{
-				calculate();
-				return true;
-			}
-			return false;
+			return true;
 		}
 
 		Head& getHead()

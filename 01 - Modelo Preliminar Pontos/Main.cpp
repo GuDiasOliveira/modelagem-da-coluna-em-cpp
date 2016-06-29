@@ -39,20 +39,17 @@ int main(int argc, char** argv)
 			}
 		}
 
-		HeadDrawable test;
+		DiskDrawable test;
 		test.setPosition(Vector2f(150, 200));
-		test.element = new Head(50);
-		test.element->setAngle(PI / 4);
-
-		CircleShape test2;
-		test2.setPosition(200, 200);
-		test2.setRadius(10);
-		test2.setFillColor(Color::Cyan);
+		test.element = new Disk;
+		test.element->setHeight(100);
+		test.element->setWidth(200);
+		test.element->setDeltaHeight(-50);
+		//test.setRotation(30);
 
 		window.clear();
 		window.draw(spineDrw);
 		//window.draw(test);
-		//window.draw(test2);
 		window.display();
 
 		delete test.element;

@@ -29,8 +29,8 @@ namespace humanSpineSfDraw
 			//Vector2f point = Vector2f(0, 0);
 			states.transform *= getTransform();
 
-			VertebraDrawable vertDrw;
-			DiskDrawable diskDrw;
+			//VertebraDrawable vertDrw;
+			//DiskDrawable diskDrw;
 			HeadDrawable headDrw;
 			SacroCoccyxDrawable saccDrw;
 
@@ -42,11 +42,13 @@ namespace humanSpineSfDraw
 
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
+				VertebraDrawable vertDrw;
 				vertDrw.element = &element->getVertebra(i);
 				vertDrw.setPosition(convertVector(vertDrw.element->position));
 				vertDrw.setRotation(to_sfmlAngle(vertDrw.element->getAngle()));
 				target.draw(vertDrw, states);
 
+				DiskDrawable diskDrw;
 				diskDrw.element = &element->getDisk(i);
 				diskDrw.setPosition(convertVector(diskDrw.element->position));
 				diskDrw.setRotation(to_sfmlAngle(diskDrw.element->getAngle()));

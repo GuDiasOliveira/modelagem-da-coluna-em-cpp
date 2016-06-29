@@ -26,7 +26,7 @@ namespace humanSpineSfDraw
 
 			shape.setFillColor(Color::White);
 			shape.setOutlineColor(Color(50, 50, 50));
-			shape.setOutlineThickness(3.5f);
+			shape.setOutlineThickness(1.0f);
 
 			target.draw(shape, states);
 		}

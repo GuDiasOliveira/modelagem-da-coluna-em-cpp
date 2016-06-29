@@ -19,21 +19,21 @@ namespace humanSpineSfDraw
 			ConvexShape leftTriangle;
 			leftTriangle.setPointCount(3);
 			leftTriangle.setPoint(0, Vector2f(0, 0));
-			leftTriangle.setPoint(1, Vector2f(-element->getWidth() / 2, element->getHeight() / 2));
+			leftTriangle.setPoint(1, Vector2f(-element->getWidth() / 2, -element->getHeight() / 2));
 			leftTriangle.setPoint(2, Vector2f(-element->getWidth() / 2, element->getLeftHeight() - element->getHeight() / 2));
 			//leftTriangle.setRotation(element->getAngle());
 
 			ConvexShape rightTriangle;
 			rightTriangle.setPointCount(3);
 			rightTriangle.setPoint(0, Vector2f(0, 0));
-			rightTriangle.setPoint(1, Vector2f(element->getWidth() / 2, element->getHeight() / 2));
+			rightTriangle.setPoint(1, Vector2f(element->getWidth() / 2, -element->getHeight() / 2));
 			rightTriangle.setPoint(2, Vector2f(element->getWidth() / 2, element->getRightHeight() - element->getHeight() / 2));
 			//rightTriangle.setRotation(element->getAngle());
 
 			leftTriangle.setFillColor(Color::Red);
 			rightTriangle.setFillColor(Color::Red);
-			leftTriangle.setOutlineThickness(3.5f);
-			rightTriangle.setOutlineThickness(3.5f);
+			leftTriangle.setOutlineThickness(1.0f);
+			rightTriangle.setOutlineThickness(1.0f);
 			leftTriangle.setOutlineColor(Color::Magenta);
 			rightTriangle.setOutlineColor(Color::Magenta);
 

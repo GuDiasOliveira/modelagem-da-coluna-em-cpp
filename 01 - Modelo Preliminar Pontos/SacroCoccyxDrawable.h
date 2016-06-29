@@ -22,6 +22,9 @@ namespace humanSpineSfDraw
 			shape.setPoint(1, Vector2f(0, -element->x / 2));
 			shape.setPoint(2, Vector2f(0, element->x / 2));
 			//shape.setPosition(position);
+			shape.setFillColor(Color::White);
+			shape.setOutlineColor(Color(60, 60, 60));
+			shape.setOutlineThickness(1.0f);
 			
 			target.draw(shape, states);
 		}
