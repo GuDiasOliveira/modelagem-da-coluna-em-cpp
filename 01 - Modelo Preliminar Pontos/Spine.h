@@ -90,13 +90,14 @@ namespace humanSpine
 
 		Spine() : m_pointsModel(PointsModel(SPINE_COUNT_ALL_DISKS + 1, PI / 2, 1))
 		{
-			m_head.setRadius(SPINE_WIDTH * 0.5);
+			m_head.setRadius(SPINE_WIDTH * 0.5); // initial head radius for tests
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				m_disks[i].setWidth(SPINE_WIDTH);
-				m_disks[i].setHeight(3.5); // inital height for tests
+				m_disks[i].setHeight(2); // inital height for tests
+				m_disks[i].setMaxDeltaHeight(1.5); // initial max delta height for tests
 				m_vertebras[i].setWidth(SPINE_WIDTH);
-				m_vertebras[i].setHeight(20); // inital height for tests
+				m_vertebras[i].setHeight(10); // inital height for tests
 			}
 			calculate();
 		}
@@ -152,6 +153,7 @@ namespace humanSpine
 			if (angle < 0 || angle > 2 * PI)
 				return false;
 			m_head.setAngle(angle);
+			calculate();
 			return true;
 		}
 

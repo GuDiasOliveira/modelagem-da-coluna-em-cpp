@@ -29,6 +29,8 @@ namespace humanSpineSfDraw
 			//Vector2f point = Vector2f(0, 0);
 			states.transform *= getTransform();
 
+			states.transform.scale(1, -1);
+
 			//VertebraDrawable vertDrw;
 			//DiskDrawable diskDrw;
 			HeadDrawable headDrw;
