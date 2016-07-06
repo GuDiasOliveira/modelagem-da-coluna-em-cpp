@@ -34,7 +34,7 @@ void loadGUI(tgui::Gui &gui)
 	Label::Ptr lblMaxDeltaHeight = make_shared<Label>();
 	lblMaxDeltaHeight.get()->setText("Inclinação máxima do disco");
 	lblMaxDeltaHeight.get()->setTextColor(tgui::Color(sf::Color::White));
-	lblMaxDeltaHeight.get()->setPosition({ 20, 0 });
+	lblMaxDeltaHeight.get()->setPosition({ 20, 20 });
 	lblMaxDeltaHeight.get()->setSize({ SIDE_PANEL_WIDTH - 20, 20 });
 	lblMaxDeltaHeight.get()->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
 	spineDrw.element = &spine;
 	spineDrw.setPosition(Vector2f(window.getSize().x / 2, window.getSize().y - 10));
 
-	gui.get<Slider>("sldDeltaHeight").get()->connect("ValueChanged", [&](int value)
+	auto deltaHeightChangeCallback = [&](int value)
 	{
 		double angles[SPINE_COUNT_ALL_DISKS + 1];
 		angles[0] = PI / 2;
@@ -123,6 +123,19 @@ int main(int argc, char** argv)
 		}
 		spine.setAngles(angles);
 		spine.setHeadInclination(angles[SPINE_COUNT_ALL_DISKS] - PI / 2);
+	};
+	gui.get<Slider>("sldDeltaHeight").get()->connect("ValueChanged", deltaHeightChangeCallback);
+
+	gui.get<Slider>("sldMaxDeltaHeight").get()->connect("ValueChanged", [&](int value)
+	{
+		for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
+		{
+			Disk& disk = spine.getDisk(i);
+			double maxDeltaHeight = value / 100.0 * disk.getHeight();
+			disk.setMaxDeltaHeight(maxDeltaHeight);
+		}
+		spine.recalculate();
+		deltaHeightChangeCallback(gui.get<Slider>("sldDeltaHeight").get()->getValue());
 	});
 
 	window.setVisible(true);

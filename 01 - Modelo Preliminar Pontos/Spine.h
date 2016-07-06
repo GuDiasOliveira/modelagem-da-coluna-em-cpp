@@ -22,7 +22,7 @@
 #define SPINE_LAST_VERTEBRA_INDEX_SACRUM  SPINE_LAST_VERTEBRA_INDEX_LUMBAR + SPINE_COUNT_VERTEBRA_SACRUM
 #define SPINE_LAST_VERTEBRA_INDEX_COCCYX  SPINE_LAST_VERTEBRA_INDEX_SACRUM + SPINE_COUNT_VERTEBRA_COCCYX
 
-#define SPINE_WIDTH 30
+#define SPINE_WIDTH 60
 
 using namespace pointsModel;
 
@@ -90,14 +90,25 @@ namespace humanSpine
 
 		Spine() : m_pointsModel(PointsModel(SPINE_COUNT_ALL_DISKS + 1, PI / 2, 1))
 		{
-			m_head.setRadius(SPINE_WIDTH * 0.5); // initial head radius for tests
+			m_head.setRadius(SPINE_WIDTH * 0.7); // initial head radius for tests
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				m_disks[i].setWidth(SPINE_WIDTH);
-				m_disks[i].setHeight(2); // inital height for tests
-				m_disks[i].setMaxDeltaHeight(1.5); // initial max delta height for tests
+				m_disks[i].setHeight(4); // inital height for tests
+				m_disks[i].setMaxDeltaHeight(3); // initial max delta height for tests
 				m_vertebras[i].setWidth(SPINE_WIDTH);
-				m_vertebras[i].setHeight(10); // inital height for tests
+				m_vertebras[i].setHeight(20); // inital height for tests
+			}
+			calculate();
+		}
+
+		void recalculate()
+		{
+			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
+			{
+				double angle = m_pointsModel.getAngle(i);
+				if (limitAngle(i, angle))
+					m_pointsModel.setAngle(i, angle);
 			}
 			calculate();
 		}
