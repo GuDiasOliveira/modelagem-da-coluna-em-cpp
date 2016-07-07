@@ -142,20 +142,37 @@ int main(int argc, char** argv)
 	while (window.isOpen())
 	{
 		Event evt;
+		RectangleShape* testRects = nullptr;
 		while (window.pollEvent(evt))
 		{
 			if (evt.type == Event::Closed)
 			{
 				window.close();
 			}
-
+			
 			gui.handleEvent(evt);
+		}
+
+		if (Mouse::isButtonPressed(Mouse::Button::Left))
+		{
+			Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
+			testRects = spineDrw.selectDisk(mousePosition, window);
 		}
 
 		window.clear();
 		window.draw(spineDrw);
 		gui.draw();
+		if (testRects != nullptr)
+		{
+			//testRects[0].setPosition(0, 0);
+			//testRects[0].setSize({ 100, 100 });
+			//for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
+				//window.draw(testRects[i]);
+		}
 		window.display();
+
+		if (testRects != nullptr)
+			delete[] testRects;
 	}
 
 	return EXIT_SUCCESS;
