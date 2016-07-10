@@ -6,7 +6,6 @@
 #include "DiskDrawable.h"
 #include "HeadDrawable.h"
 #include "SacroCoccyxDrawable.h"
-#include "Collision.h"
 
 using namespace pointsModel;
 using namespace sf;
@@ -67,9 +66,9 @@ namespace humanSpineSfDraw
 
 	public:
 
-		RectangleShape* selectDisk(Vector2f mouseClickPosition, RenderWindow &w)
+		void selectDisk(Vector2f mouseClickPosition)
 		{
-			RectangleShape* testRects = new RectangleShape[SPINE_COUNT_ALL_DISKS];
+			//RectangleShape* testRects = new RectangleShape[SPINE_COUNT_ALL_DISKS];
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 			{
 				Disk &disk = element->getDisk(i);
@@ -80,33 +79,47 @@ namespace humanSpineSfDraw
 				diskBounds.left = (float) (-diskOrigin.x + convertVector(disk.position).x + getPosition().x + disk.getWidth() / 2);
 				diskBounds.width = disk.getWidth();
 
-				// For DEBUG
-				RectangleShape testArea;
-				//float width = diskBounds.width, height = diskBounds.height;
-				testArea.setSize({ (float) diskBounds.width, (float) diskBounds.height });
-				//testArea.setSize({60, 8});
-				testArea.setPosition(diskBounds.left, diskBounds.top);
-				//testArea.setPosition(0, 0);
-				testArea.setOrigin(diskOrigin);
-				testArea.setRotation(360 - Utils::to_sfmlAngle(disk.getAngle()));
-				testArea.setFillColor(sf::Color::Green);
-				testRects[i] = testArea;
+				//// For DEBUG
+				//RectangleShape testArea;
+				////float width = diskBounds.width, height = diskBounds.height;
+				//testArea.setSize({ (float) diskBounds.width, (float) diskBounds.height });
+				////testArea.setSize({60, 8});
+				//testArea.setPosition(diskBounds.left, diskBounds.top);
+				////testArea.setPosition(0, 0);
+				//testArea.setOrigin(diskOrigin);
+				//testArea.setRotation(360 - Utils::to_sfmlAngle(disk.getAngle()));
+				//testArea.setFillColor(sf::Color::Green);
+				//testRects[i] = testArea;
 
 				if (Utils::collision(mouseClickPosition, diskBounds, 360 - Utils::to_sfmlAngle(disk.getAngle()), diskOrigin))
 				{
 					selectedDiskIndex = i;
-					cout << "Disk selected " << selectedDiskIndex << endl;
-					return nullptr;
+
+					//return nullptr;
 				}
 			}
-			cout << "No disk selected" << endl;
 			selectedDiskIndex = -1;
-			return testRects;
+			//return testRects;
 		}
 
-		void selectDisk(float mouseX, float mouseY, RenderWindow &w)
+		void selectDisk(float mouseX, float mouseY)
 		{
-			selectDisk({ mouseX, mouseY }, w);
+			selectDisk({ mouseX, mouseY });
+		}
+
+		void selectDisk(unsigned int diskIndex)
+		{
+			selectedDiskIndex = diskIndex;
+		}
+
+		void unselectDisk()
+		{
+			selectedDiskIndex = -1;
+		}
+
+		int getSelectedDiskIndex()
+		{
+			return selectedDiskIndex;
 		}
 
 		virtual ~SpineDrawable()

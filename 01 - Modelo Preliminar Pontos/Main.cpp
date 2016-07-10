@@ -65,10 +65,42 @@ void loadGUI(tgui::Gui &gui)
 	});
 	sldDeltaHeight.get()->setSize({ SIDE_PANEL_WIDTH - 20, 20 });
 
+	Label::Ptr lblPrevDisk = make_shared<Label>();
+	lblPrevDisk.get()->setAutoSize(true);
+	lblPrevDisk.get()->setText("<<");
+	lblPrevDisk.get()->setTextColor(tgui::Color(sf::Color::White));
+	lblPrevDisk.get()->setPosition({20,
+		sldDeltaHeight.get()->getPosition().y + sldDeltaHeight.get()->getSize().y + 10
+	});
+	lblPrevDisk.get()->setSize({25, 20});
+
+	Label::Ptr lblSelectDisk = make_shared<Label>();
+	lblSelectDisk.get()->setText("Selecionar disco");
+	lblSelectDisk.get()->setTextColor(tgui::Color(sf::Color::White));
+	lblSelectDisk.get()->setPosition({
+		lblPrevDisk.get()->getPosition().x + lblPrevDisk.get()->getSize().x + 5,
+		lblPrevDisk.get()->getPosition().y
+	});
+	//lblSelectDisk.get()->setSize({ lblSelectDisk.get()->getSize().x, 20 });
+	lblSelectDisk.get()->setAutoSize(true);
+	gui.add(lblSelectDisk, "lblSelectDisk");
+
+	Label::Ptr lblNextDisk = make_shared<Label>();
+	lblNextDisk.get()->setAutoSize(true);
+	lblNextDisk.get()->setText(">>");
+	lblNextDisk.get()->setTextColor(tgui::Color(sf::Color::White));
+	lblNextDisk.get()->setPosition({
+		lblSelectDisk.get()->getPosition().x + lblSelectDisk.get()->getSize().x + 5,
+		lblPrevDisk.get()->getPosition().y
+	});
+	lblNextDisk.get()->setSize({ lblNextDisk.get()->getSize().x, 20});
+
 	gui.add(lblMaxDeltaHeight, "lblMaxDeltaHeight");
 	gui.add(sldMaxDeltaHeight, "sldMaxDeltaHeight");
 	gui.add(lblDeltaHeight, "lblDeltaHeight");
 	gui.add(sldDeltaHeight, "sldDeltaHeight");
+	gui.add(lblPrevDisk, "lblPrevDisk");
+	gui.add(lblNextDisk, "lblNextDisk");
 }
 
 
@@ -93,9 +125,7 @@ int main(int argc, char** argv)
 	{
 		double deltaAngleMax = spine.getMaxDeltaAngle(i - 1);
 		double deltaAngle = random(-deltaAngleMax, deltaAngleMax);
-		//double deltaAngle = deltaAngleMax;
 		angles[i] = angles[i - 1] - deltaAngle;
-		//angles[i] = 2.5 * SPINE_WIDTH * sin(2*PI/10 * i);
 		while (angles[i] > 2 * PI)
 			angles[i] -= 2 * PI;
 		while (angles[i] < 0)
@@ -138,11 +168,32 @@ int main(int argc, char** argv)
 		deltaHeightChangeCallback(gui.get<Slider>("sldDeltaHeight").get()->getValue());
 	});
 
+	int selectedDiskIndex = 0;
+	gui.get<Label>("lblPrevDisk").get()->connect("clicked", [&]()
+	{
+		if (selectedDiskIndex > 0)
+			selectedDiskIndex--;
+		spineDrw.selectDisk(selectedDiskIndex);
+	});
+	gui.get<Label>("lblSelectDisk").get()->connect("clicked", [&]()
+	{
+		if (spineDrw.getSelectedDiskIndex() == -1)
+			spineDrw.selectDisk(selectedDiskIndex);
+		else
+			spineDrw.unselectDisk();
+	});
+	gui.get<Label>("lblNextDisk").get()->connect("clicked", [&]()
+	{
+		if (selectedDiskIndex < SPINE_COUNT_ALL_DISKS - 1)
+			selectedDiskIndex++;
+		spineDrw.selectDisk(selectedDiskIndex);
+	});
+
 	window.setVisible(true);
 	while (window.isOpen())
 	{
 		Event evt;
-		RectangleShape* testRects = nullptr;
+		//RectangleShape* testRects = nullptr;
 		while (window.pollEvent(evt))
 		{
 			if (evt.type == Event::Closed)
@@ -156,23 +207,62 @@ int main(int argc, char** argv)
 		if (Mouse::isButtonPressed(Mouse::Button::Left))
 		{
 			Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
-			testRects = spineDrw.selectDisk(mousePosition, window);
+			spineDrw.selectDisk(mousePosition);
 		}
+
+		//// For tests DEBUG
+		//Vector2f* testShapePoints = new Vector2f[4]
+		//{
+		//	{20, 20},
+		//	{100, 20},
+		//	{100, 100},
+		//	{20, 100}
+		//};
+		//int sldValue = gui.get<Slider>("sldDeltaHeight").get()->getValue();
+		//float angle = sldValue / 100.1f * 360;
+		//ConvexShape testShape;
+		//Vector2f testOrigin = testShapePoints[0];
+		//testShape.setPointCount(4);
+		//FloatRect testBounds = testShape.getGlobalBounds();
+		//for (int i = 0; i < 4; i++)
+		//{
+		//	Vector2f point = testShapePoints[i];
+		//	point = Utils::rotatePoint(point, angle, testOrigin);
+		//	testShape.setPoint(i, point);
+		//}
+		//if (Utils::collision(Vector2f(Mouse::getPosition()), testBounds, angle, {0, 0}))
+		//{
+		//	testShape.setFillColor(sf::Color::White);
+		//}
+		//else
+		//{
+		//	testShape.setFillColor(sf::Color::Yellow);
+		//}
 
 		window.clear();
 		window.draw(spineDrw);
 		gui.draw();
-		if (testRects != nullptr)
-		{
-			//testRects[0].setPosition(0, 0);
-			//testRects[0].setSize({ 100, 100 });
-			//for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
-				//window.draw(testRects[i]);
-		}
+		//if (testRects != nullptr)
+		//{
+		//	//testRects[0].setPosition(0, 0);
+		//	//testRects[0].setSize({ 100, 100 });
+		//	for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
+		//		window.draw(testRects[i]);
+		//}
+		//else
+		//{
+		//	Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
+		//	CircleShape c;
+		//	c.setFillColor(sf::Color::Blue);
+		//	c.setRadius(1);
+		//	c.setPosition(mousePosition);
+		//	window.draw(c);
+		//}
+		//window.draw(testShape);
 		window.display();
 
-		if (testRects != nullptr)
-			delete[] testRects;
+		/*if (testRects != nullptr)
+			delete[] testRects;*/
 	}
 
 	return EXIT_SUCCESS;

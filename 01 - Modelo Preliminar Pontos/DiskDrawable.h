@@ -2,7 +2,6 @@
 
 #include "HumanSpineElementDrawable.h"
 #include "Disk.h"
-#include "Clickable.h"
 
 
 namespace humanSpineSfDraw
