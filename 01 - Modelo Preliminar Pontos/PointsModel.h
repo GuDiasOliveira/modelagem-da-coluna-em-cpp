@@ -76,7 +76,7 @@ namespace pointsModel
 			calculatePoints();
 		}
 
-		unsigned int getNumberOfPoints()
+		unsigned int getNumberOfPoints() const
 		{
 			return m_numberOfPoints;
 		}
@@ -92,7 +92,7 @@ namespace pointsModel
 			return true;
 		}
 
-		double getEdge(unsigned int index)
+		double getEdge(unsigned int index) const
 		{
 			return m_edges[index];
 		}
@@ -108,7 +108,7 @@ namespace pointsModel
 			return true;
 		}
 
-		double getAngle(unsigned int index)
+		double getAngle(unsigned int index) const
 		{
 			return m_angles[index];
 		}
@@ -128,7 +128,7 @@ namespace pointsModel
 			return true;
 		}
 
-		double getMaxAngle(unsigned int index)
+		double getMaxAngle(unsigned int index) const
 		{
 			return m_maxAngles[index];
 		}
@@ -148,12 +148,12 @@ namespace pointsModel
 			return true;
 		}
 
-		double getMinAngle(unsigned int index)
+		double getMinAngle(unsigned int index) const
 		{
 			return m_minAngles[index];
 		}
 
-		Point getPoint(unsigned int index)
+		Point getPoint(unsigned int index) const
 		{
 			return m_points[index];
 		}

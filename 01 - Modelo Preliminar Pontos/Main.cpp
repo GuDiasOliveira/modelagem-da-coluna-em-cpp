@@ -139,31 +139,32 @@ int main(int argc, char** argv)
 	spineDrw.setPosition(Vector2f(window.getSize().x / 2, window.getSize().y - 10));
 
 	auto deltaHeightChangeCallback = [&](int value)
-	{
-		double angles[SPINE_COUNT_ALL_DISKS + 1];
-		angles[0] = PI / 2;
-		for (int i = 1; i < SPINE_COUNT_ALL_DISKS + 1; i++)
-		{
-			double deltaAngle = (value - 50) / 50.0 * spine.getMaxDeltaAngle(i - 1);
-			angles[i] = angles[i - 1] + deltaAngle;
-			while (angles[i] > 2 * PI)
-				angles[i] -= 2 * PI;
-			while (angles[i] < 0)
-				angles[i] += 2 * PI;
-		}
-		spine.setAngles(angles);
-		spine.setHeadInclination(angles[SPINE_COUNT_ALL_DISKS] - PI / 2);
+	{	
+		int selectedDiskIndex = spineDrw.getSelectedDiskIndex();
+
+		if (selectedDiskIndex < 0)
+			return;
+
+		double deltaAngle = (value - 50) / 50.0 * spine.getMaxDeltaAngle(selectedDiskIndex - 1);
+		double angle = spine.getAngle(selectedDiskIndex - 1) + deltaAngle;
+		Utils::delimitAngle(angle);
+		spine.setAngle(selectedDiskIndex, angle);
+		for (int i = selectedDiskIndex + 1; i < SPINE_COUNT_ALL_DISKS; i++)
+			spine.setAngle(i, spine.getAngle(i) + deltaAngle);
+		spine.setHeadInclination(spine.getInclination(SPINE_COUNT_ALL_DISKS - 1));
 	};
 	gui.get<Slider>("sldDeltaHeight").get()->connect("ValueChanged", deltaHeightChangeCallback);
 
 	gui.get<Slider>("sldMaxDeltaHeight").get()->connect("ValueChanged", [&](int value)
 	{
-		for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
-		{
-			Disk& disk = spine.getDisk(i);
-			double maxDeltaHeight = value / 100.0 * disk.getHeight();
-			disk.setMaxDeltaHeight(maxDeltaHeight);
-		}
+		int selectedDiskIndex = spineDrw.getSelectedDiskIndex();
+		
+		if (selectedDiskIndex < 0)
+			return;
+
+		Disk& disk = spine.getDisk(selectedDiskIndex);
+		double maxDeltaHeight = value / 100.0 * disk.getHeight();
+		disk.setMaxDeltaHeight(maxDeltaHeight);
 		spine.recalculate();
 		deltaHeightChangeCallback(gui.get<Slider>("sldDeltaHeight").get()->getValue());
 	});
@@ -204,11 +205,11 @@ int main(int argc, char** argv)
 			gui.handleEvent(evt);
 		}
 
-		if (Mouse::isButtonPressed(Mouse::Button::Left))
+		/*if (Mouse::isButtonPressed(Mouse::Button::Left))
 		{
 			Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
 			spineDrw.selectDisk(mousePosition);
-		}
+		}*/
 
 		//// For tests DEBUG
 		//Vector2f* testShapePoints = new Vector2f[4]

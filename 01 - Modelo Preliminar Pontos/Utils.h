@@ -38,14 +38,16 @@ namespace Utils
 
 	void delimitAngle(double &radAngle)
 	{
-		int revs = floor(radAngle / 2 * PI);
-		radAngle -= 2 * PI * revs;
+		/*int revs = floor(radAngle / 2 * PI);
+		radAngle -= 2 * PI * revs;*/
+		radAngle = fmod(radAngle, 2 * PI);
 	}
 
 	void delimitAnglef(float &radAngle)
 	{
-		int revs = floor(radAngle / 2 * PI);
-		radAngle -= 2 * PI * revs;
+		/*int revs = floor(radAngle / 2 * PI);
+		radAngle -= 2 * PI * revs;*/
+		radAngle = (float) fmod(radAngle, 2 * PI);
 	}
 
 	float distance(sf::Vector2f p1, Vector2f p2)

@@ -80,6 +80,8 @@ namespace humanSpine
 			if (!checkSetAngle(indexToSetAngle, angle))
 			{
 				double deltaAngle = getMaxDeltaAngle(indexToSetAngle - 1);
+				if (m_pointsModel.getAngle(indexToSetAngle - 1) > angle)
+					deltaAngle *= -1;
 				angle = m_pointsModel.getAngle(indexToSetAngle - 1) + deltaAngle;
 				return true;
 			}
@@ -144,12 +146,22 @@ namespace humanSpine
 			return set;
 		}
 
+		double getAngle(unsigned int angleIndex)
+		{
+			return m_pointsModel.getAngle(angleIndex);
+		}
+
 		unsigned int setInclinations(double *angles)
 		{
 			double _angles[SPINE_COUNT_ALL_DISKS];
 			for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
 				_angles[i] = angles[i] + PI / 2;
 			return setAngles(_angles);
+		}
+
+		double getInclination(unsigned int angleIndex)
+		{
+			return getAngle(angleIndex) - PI / 2;
 		}
 
 		bool setInclination(unsigned int diskIndex, double angle)
