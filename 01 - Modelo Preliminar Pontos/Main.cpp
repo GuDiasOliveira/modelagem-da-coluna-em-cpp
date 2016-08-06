@@ -145,13 +145,14 @@ int main(int argc, char** argv)
 		if (selectedDiskIndex < 0)
 			return;
 
-		double deltaAngle = (value - 50) / 50.0 * spine.getMaxDeltaAngle(selectedDiskIndex - 1);
-		double angle = spine.getAngle(selectedDiskIndex - 1) + deltaAngle;
+		double deltaAngle = (value - 50) / 50.0 * spine.getMaxDeltaAngle(selectedDiskIndex);
+		double angle = spine.getAngle(selectedDiskIndex) + deltaAngle;
 		Utils::delimitAngle(angle);
-		spine.setAngle(selectedDiskIndex, angle);
-		for (int i = selectedDiskIndex + 1; i < SPINE_COUNT_ALL_DISKS; i++)
+		spine.setAngle(selectedDiskIndex + 1, angle);
+		for (int i = selectedDiskIndex + 2; i < SPINE_COUNT_ALL_DISKS; i++)
 			spine.setAngle(i, spine.getAngle(i) + deltaAngle);
 		spine.setHeadInclination(spine.getInclination(SPINE_COUNT_ALL_DISKS - 1));
+		cout << "Delta Height GET value = " << value << endl;
 	};
 	gui.get<Slider>("sldDeltaHeight").get()->connect("ValueChanged", deltaHeightChangeCallback);
 
@@ -167,12 +168,13 @@ int main(int argc, char** argv)
 		disk.setMaxDeltaHeight(maxDeltaHeight);
 		spine.recalculate();
 		deltaHeightChangeCallback(gui.get<Slider>("sldDeltaHeight").get()->getValue());
+		cout << "Max Delta Height GET value = " << value << endl;
 	});
 
-	int selectedDiskIndex = 0;
+	int selectedDiskIndex = 1;
 	gui.get<Label>("lblPrevDisk").get()->connect("clicked", [&]()
 	{
-		if (selectedDiskIndex > 0)
+		if (selectedDiskIndex > 1)
 			selectedDiskIndex--;
 		spineDrw.selectDisk(selectedDiskIndex);
 	});
@@ -188,6 +190,13 @@ int main(int argc, char** argv)
 		if (selectedDiskIndex < SPINE_COUNT_ALL_DISKS - 1)
 			selectedDiskIndex++;
 		spineDrw.selectDisk(selectedDiskIndex);
+
+		Disk& selectedDisk = spine.getDisk(selectedDiskIndex);
+		gui.get<Slider>("sldMaxDeltaHeight").get()->setValue(selectedDisk.getMaxDeltaHeight() / selectedDisk.getHeight() * 100.0);
+		cout << "Max Delta Height SET value = " << gui.get<Slider>("sldMaxDeltaHeight").get()->getValue() << endl;
+		double deltaAngle = spine.getAngle(selectedDiskIndex) - spine.getAngle(selectedDiskIndex - 1);
+		gui.get<Slider>("sldDeltaHeight").get()->setValue(deltaAngle / spine.getMaxDeltaAngle(selectedDiskIndex - 1) * 50.0 + 50.0);
+		cout << "Delta Height SET value = " << gui.get<Slider>("sldDeltaHeight").get()->getValue() << endl;
 	});
 
 	window.setVisible(true);
