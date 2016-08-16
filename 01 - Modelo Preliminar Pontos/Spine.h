@@ -197,8 +197,6 @@ namespace humanSpine
 
 		virtual ~Spine()
 		{
-			delete[] m_disks;
-			delete[] m_vertebras;
 		}
 
 	};
