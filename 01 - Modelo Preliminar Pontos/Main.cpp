@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <random>
+#include <cmath>
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Widgets/Label.hpp>
@@ -106,7 +107,8 @@ void loadGUI(tgui::Gui &gui)
 
 int main(int argc, char** argv)
 {
-	RenderWindow window({ 1280, 720 }, "Visualização em 2D da Coluna Vertebral", Style::Default);
+	RenderWindow window({ 1000, 670 }, "Visualização em 2D da Coluna Vertebral", Style::Default);
+	View view = window.getDefaultView();
 	tgui::Gui gui(window);
 
 	try
@@ -199,9 +201,27 @@ int main(int argc, char** argv)
 		cout << "Delta Height SET value = " << gui.get<Slider>("sldDeltaHeight").get()->getValue() << endl;
 	});
 
+	Vector2i prevMousePos = Mouse::getPosition(window);
+	Clock clkMouseMove;
+
 	window.setVisible(true);
 	while (window.isOpen())
 	{
+		if (clkMouseMove.getElapsedTime().asSeconds() > 1 / 30.0f)
+		{
+			Vector2i mousePos = Mouse::getPosition(window);
+			Vector2i mouseMove = mousePos - prevMousePos;
+
+			if (Mouse::isButtonPressed(Mouse::Button::Left) && mousePos.x > SIDE_PANEL_WIDTH)
+			{
+				view.move(-mouseMove.x, -mouseMove.y);
+			}
+
+			prevMousePos = mousePos;
+
+			clkMouseMove.restart();
+		}
+
 		Event evt;
 		//RectangleShape* testRects = nullptr;
 		while (window.pollEvent(evt))
@@ -210,9 +230,15 @@ int main(int argc, char** argv)
 			{
 				window.close();
 			}
+			else if (evt.type == Event::MouseWheelScrolled)
+			{
+				view.zoom(1.0f - evt.mouseWheelScroll.delta * 0.1f);
+			}
 			
 			gui.handleEvent(evt);
 		}
+
+		
 
 		/*if (Mouse::isButtonPressed(Mouse::Button::Left))
 		{
@@ -269,6 +295,11 @@ int main(int argc, char** argv)
 		//	window.draw(c);
 		//}
 		//window.draw(testShape);
+
+		
+
+		window.setView(view);
+
 		window.display();
 
 		/*if (testRects != nullptr)
