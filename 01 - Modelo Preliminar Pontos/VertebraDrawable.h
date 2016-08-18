@@ -16,16 +16,13 @@ namespace humanSpineSfDraw
 		{
 			states.transform *= getTransform();
 
-			//Vector2f position = getPosition();
 			RectangleShape shape;
 			
-			//shape.setPosition(position);
 			shape.setOrigin(Vector2f(element->getWidth() / 2, element->getHeight() / 2));
 			shape.setSize(Vector2f(element->getWidth(), element->getHeight()));
-			//shape.setRotation(element->getAngle() * 180 / PI);
 
-			shape.setFillColor(Color::White);
-			shape.setOutlineColor(Color(50, 50, 50));
+			shape.setFillColor(sf::Color::White);
+			shape.setOutlineColor(sf::Color(50, 50, 50));
 			shape.setOutlineThickness(1.0f);
 
 			target.draw(shape, states);

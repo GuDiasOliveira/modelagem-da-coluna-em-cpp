@@ -18,8 +18,8 @@ namespace humanSpineSfDraw
 
 			CircleShape shape;
 			shape.setRadius(element->getRadius());
-			shape.setFillColor(Color::White);
-			shape.setOutlineColor(Color(50, 50, 50));
+			shape.setFillColor(sf::Color::White);
+			shape.setOutlineColor(sf::Color(50, 50, 50));
 			shape.setOutlineThickness(1.0f);
 			shape.setOrigin(shape.getRadius(), shape.getRadius());
 			
@@ -28,7 +28,7 @@ namespace humanSpineSfDraw
 			eye.setPoint(0, Vector2f(0, 0));
 			eye.setPoint(1, Vector2f(element->getRadius(), -element->getRadius() / 8));
 			eye.setPoint(2, Vector2f(element->getRadius(), element->getRadius() / 8));
-			eye.setFillColor(Color::Blue);
+			eye.setFillColor(sf::Color::Blue);
 
 			target.draw(shape, states);
 			target.draw(eye, states);

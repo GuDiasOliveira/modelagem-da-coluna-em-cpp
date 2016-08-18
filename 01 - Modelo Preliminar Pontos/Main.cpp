@@ -82,7 +82,6 @@ void loadGUI(tgui::Gui &gui)
 		lblPrevDisk.get()->getPosition().x + lblPrevDisk.get()->getSize().x + 5,
 		lblPrevDisk.get()->getPosition().y
 	});
-	//lblSelectDisk.get()->setSize({ lblSelectDisk.get()->getSize().x, 20 });
 	lblSelectDisk.get()->setAutoSize(true);
 	gui.add(lblSelectDisk, "lblSelectDisk");
 
@@ -150,11 +149,11 @@ int main(int argc, char** argv)
 		double deltaAngle = (value - 50) / 50.0 * spine.getMaxDeltaAngle(selectedDiskIndex);
 		double angle = spine.getAngle(selectedDiskIndex) + deltaAngle;
 		Utils::delimitAngle(angle);
+
 		spine.setAngle(selectedDiskIndex + 1, angle);
 		for (int i = selectedDiskIndex + 2; i < SPINE_COUNT_ALL_DISKS; i++)
 			spine.setAngle(i, spine.getAngle(i) + deltaAngle);
 		spine.setHeadInclination(spine.getInclination(SPINE_COUNT_ALL_DISKS - 1));
-		cout << "Delta Height GET value = " << value << endl;
 	};
 	gui.get<Slider>("sldDeltaHeight").get()->connect("ValueChanged", deltaHeightChangeCallback);
 
@@ -170,7 +169,6 @@ int main(int argc, char** argv)
 		disk.setMaxDeltaHeight(maxDeltaHeight);
 		spine.recalculate();
 		deltaHeightChangeCallback(gui.get<Slider>("sldDeltaHeight").get()->getValue());
-		cout << "Max Delta Height GET value = " << value << endl;
 	});
 
 	int selectedDiskIndex = 1;
@@ -195,10 +193,8 @@ int main(int argc, char** argv)
 
 		Disk& selectedDisk = spine.getDisk(selectedDiskIndex);
 		gui.get<Slider>("sldMaxDeltaHeight").get()->setValue(selectedDisk.getMaxDeltaHeight() / selectedDisk.getHeight() * 100.0);
-		cout << "Max Delta Height SET value = " << gui.get<Slider>("sldMaxDeltaHeight").get()->getValue() << endl;
 		double deltaAngle = spine.getAngle(selectedDiskIndex) - spine.getAngle(selectedDiskIndex - 1);
 		gui.get<Slider>("sldDeltaHeight").get()->setValue(deltaAngle / spine.getMaxDeltaAngle(selectedDiskIndex - 1) * 50.0 + 50.0);
-		cout << "Delta Height SET value = " << gui.get<Slider>("sldDeltaHeight").get()->getValue() << endl;
 	});
 
 	Vector2i prevMousePos = Mouse::getPosition(window);
@@ -223,7 +219,6 @@ int main(int argc, char** argv)
 		}
 
 		Event evt;
-		//RectangleShape* testRects = nullptr;
 		while (window.pollEvent(evt))
 		{
 			if (evt.type == Event::Closed)
@@ -238,72 +233,11 @@ int main(int argc, char** argv)
 			gui.handleEvent(evt);
 		}
 
-		
-
-		/*if (Mouse::isButtonPressed(Mouse::Button::Left))
-		{
-			Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
-			spineDrw.selectDisk(mousePosition);
-		}*/
-
-		//// For tests DEBUG
-		//Vector2f* testShapePoints = new Vector2f[4]
-		//{
-		//	{20, 20},
-		//	{100, 20},
-		//	{100, 100},
-		//	{20, 100}
-		//};
-		//int sldValue = gui.get<Slider>("sldDeltaHeight").get()->getValue();
-		//float angle = sldValue / 100.1f * 360;
-		//ConvexShape testShape;
-		//Vector2f testOrigin = testShapePoints[0];
-		//testShape.setPointCount(4);
-		//FloatRect testBounds = testShape.getGlobalBounds();
-		//for (int i = 0; i < 4; i++)
-		//{
-		//	Vector2f point = testShapePoints[i];
-		//	point = Utils::rotatePoint(point, angle, testOrigin);
-		//	testShape.setPoint(i, point);
-		//}
-		//if (Utils::collision(Vector2f(Mouse::getPosition()), testBounds, angle, {0, 0}))
-		//{
-		//	testShape.setFillColor(sf::Color::White);
-		//}
-		//else
-		//{
-		//	testShape.setFillColor(sf::Color::Yellow);
-		//}
-
 		window.clear();
 		window.draw(spineDrw);
 		gui.draw();
-		//if (testRects != nullptr)
-		//{
-		//	//testRects[0].setPosition(0, 0);
-		//	//testRects[0].setSize({ 100, 100 });
-		//	for (int i = 0; i < SPINE_COUNT_ALL_DISKS; i++)
-		//		window.draw(testRects[i]);
-		//}
-		//else
-		//{
-		//	Vector2f mousePosition = Vector2f(Mouse::getPosition(window));
-		//	CircleShape c;
-		//	c.setFillColor(sf::Color::Blue);
-		//	c.setRadius(1);
-		//	c.setPosition(mousePosition);
-		//	window.draw(c);
-		//}
-		//window.draw(testShape);
-
-		
-
 		window.setView(view);
-
 		window.display();
-
-		/*if (testRects != nullptr)
-			delete[] testRects;*/
 	}
 
 	return EXIT_SUCCESS;
